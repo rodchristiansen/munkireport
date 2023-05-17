@@ -1,20 +1,12 @@
-	<div class="col-lg-4 col-md-6">
-
-	<div class="panel panel-default" id="manifests-widget">
-
-		<div class="panel-heading">
-
-			<h3 class="panel-title"><i class="fa fa-book"></i>
-			    <span data-i18n="munkireport.manifest.title"></span>
-			    <list-link data-url="/show/listing/munkireport/munki"></list-link>
-			</h3>
-
+<div class="col-lg-4 col-md-6">
+	<div class="card" id="manifests-widget">
+		<div class="card-header">
+			<i class="fa fa-book"></i>
+            <span data-i18n="munkireport.manifest.title"></span>
+            <a href="/show/listing/munkireport/munki" class="pull-right"><i class="fa fa-list"></i></a>
 		</div>
-
 		<div class="list-group scroll-box"></div>
-
 	</div><!-- /panel -->
-
 </div><!-- /col -->
 
 <script>

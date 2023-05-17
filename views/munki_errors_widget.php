@@ -1,22 +1,15 @@
 <div class="col-lg-4 col-md-6">
-
-	<div class="panel panel-default" id="munkireport-errors-widget">
-
-		<div class="panel-heading" data-container="body">
-
+	<div class="card" id="munkireport-errors-widget">
+		<div class="card-header" data-container="body">
 			<div class="panel-title"><i class="fa fa-times-circle"></i>
 			    <span data-i18n="munkireport.errors"></span>
-			    <list-link data-url="/show/listing/munkireport/munki#errors"></list-link>
+			    <a href="/show/listing/munkireport/munki#errors" class="pull-right"><i class="fa fa-list"></i></a>
 			</div>
-
 		</div>
-
 		<div class="list-group scroll-box">
 			<span class="list-group-item"><span data-i18n="machine.new_clients.no_new_clients"></span></span>
 		</div>
-
 	</div><!-- /panel -->
-
 </div><!-- /col -->
 
 <script>
