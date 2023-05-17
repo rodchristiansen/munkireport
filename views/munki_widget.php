@@ -2,8 +2,8 @@
 	<div class="card" id="munki-widget">
 	  <div class="card-header">
 	    <i class="fa fa-smile-o"></i>
-          <span data-i18n="munkireport.munki"></span>
-          <a href="/show/listing/munkireport/munki" class="pull-right"><i class="fa fa-list"></i></a>
+	    <span data-i18n="munkireport.munki"></span>
+	    <a href="/show/listing/munkireport/munki" class="pull-right"><i class="fa fa-list"></i></a>
 	  </div>
 		<div class="card-body text-center">
 		  <a href="#munkireport.errors" tag="error" class="btn btn-danger disabled">
