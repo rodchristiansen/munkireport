@@ -4,23 +4,23 @@
   )
 )); ?>
 
-<div class="container">
-  <div class="row">
+<div class="container-fluid">
+  <div class="row pt-4">
     <?php $widget->view($this, 'munki'); ?>
     <?php $widget->view($this, 'munki_versions'); ?>
     <?php $widget->view($this, 'munkiinfo_munkiprotocol'); ?>
   </div>
-  <div class="row">
+  <div class="row pt-4">
     <?php $widget->view($this, 'get_failing'); ?>
     <?php $widget->view($this, 'pending'); ?>
     <?php $widget->view($this, 'manifests'); ?>
   </div> <!-- /row -->
-  <div class="row">
+  <div class="row pt-4">
     <?php $widget->view($this, 'pending_munki'); ?>
     <?php $widget->view($this, 'pending_apple'); ?>
   </div> <!-- /row -->
 
-  <div class="row">
+  <div class="row pt-4">
     <?php $widget->view($this, 'munki_errors'); ?>
     <?php $widget->view($this, 'munki_warnings'); ?>
   </div> <!-- /row -->
