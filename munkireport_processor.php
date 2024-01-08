@@ -61,7 +61,7 @@ class Munkireport_processor extends Processor
 
         return $this;
     }
-        
+
     private function _storeEvents($modelData)
     {
         // Store apropriate event:

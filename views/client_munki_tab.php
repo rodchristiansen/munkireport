@@ -1,18 +1,12 @@
 <div class="row">
-
-		<div class="col-lg-6">
-
+	<div class="col-lg-6">
 		<h2 data-i18n="munkireport.errors_and_warnings"></h2>
-
-				<pre id="munkireport-errors" class="hide alert alert-danger"></pre>
-				<pre id="munkireport-warnings" class="hide alert alert-warning"></pre>
-
-			<p><i data-i18n="no_errors_or_warnings" data-i18n="listing.loading" id="munkireport-no-errors"></i></p>
-
+		<pre id="munkireport-errors" class="hide alert alert-danger"></pre>
+		<pre id="munkireport-warnings" class="hide alert alert-warning"></pre>
+		<p><i data-i18n="no_errors_or_warnings" data-i18n="listing.loading" id="munkireport-no-errors"></i></p>
 	</div><!-- </div class="col-lg-6"> -->
 
 	<div class="col-lg-6">
-
 		<h2>Munki</h2>
 		<table class="table table-striped">
 			<tr>
@@ -49,8 +43,26 @@
 			</tr>
 		</table>
 		<button id="popoverId" class="btn btn-info btn-sm"><span data-i18n="munkireport.additional_info"></span></button>
-
 	</div><!-- </div class="col-lg-6"> -->
+
+	<div class="col-lg-12">
+		<h2><span data-i18n="managedinstalls.title"></span><span id="managedinstalls-statuslist"></span></h2>
+		<table id="managedinstalls-table" class="table table-striped">
+			<thead>
+				<tr>
+					<th data-i18n="name"></th>
+					<th data-i18n="version"></th>
+					<th data-i18n="size"></th>
+					<th data-i18n="status"></th>
+					<th data-i18n="managedinstalls.timestamp"></th>
+					<th data-i18n="type"></th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div><!-- </div class="col-lg-12"> -->
+</div><!-- </div class="row"> -->
 
 <script>
 $(document).on('appReady', function(){
@@ -77,62 +89,26 @@ $(document).on('appReady', function(){
 		$('#myModal').modal('show');
 	})
 
-  $.getJSON(appUrl + '/module/munkiinfo/get_data/' + serialNumber, function(data){
-    // These are single preferences
-    $('#munkiinfo-SoftwareRepoURL').text(data['SoftwareRepoURL']);
-    $('#munkiinfo-AppleCatalogURL').text(data['AppleCatalogURL']);
-    $('#munkiinfo-LocalOnlyManifest').text(data['LocalOnlyManifest']);
+	$.getJSON(appUrl + '/module/munkiinfo/get_data/' + serialNumber, function(data){
+		// These are single preferences
+		$('#munkiinfo-SoftwareRepoURL').text(data['SoftwareRepoURL']);
+		$('#munkiinfo-AppleCatalogURL').text(data['AppleCatalogURL']);
+		$('#munkiinfo-LocalOnlyManifest').text(data['LocalOnlyManifest']);
 
-    // Create table of all preferences
-    var rows = ''
-    for (key in data){
-      rows = rows + '<tr><th>'+key+'</th><td>'+data[key]+'</td></tr>'
-    }
-      table.append('<center><a target="_blank" href="https://github.com/munki/munki/wiki/Preferences#supported-managedinstalls-keys">Munki Wiki - Supported Managedinstalls Keys</a></center>')
-      .append($('<div>')
-        .addClass('table-responsive')
-        .append($('<table>')
-          // .append('<caption>Additional Munki Info</caption>')
+		// Create table of all preferences
+		var rows = ''
+		for (key in data){
+			rows = rows + '<tr><th>'+key+'</th><td>'+data[key]+'</td></tr>'
+		}
+			table.append('<center><a target="_blank" href="https://github.com/munki/munki/wiki/Preferences#supported-managedinstalls-keys">Munki Wiki - Supported Managedinstalls Keys</a></center>')
+			.append($('<div>')
+				.addClass('table-responsive')
+				.append($('<table>')
+					// .append('<caption>Additional Munki Info</caption>')
 					.addClass('table table-striped')
 					.append($('<tbody>')
 						.append(rows))))
-  });
-});
-</script>
-
-
-
-  </div><!-- </div class="row"> -->
-
-  <div class="row">
-
-	<div class="col-lg-12">
-
-		<h2><span data-i18n="managedinstalls.title"></span><span id="managedinstalls-statuslist"></span></h2>
-
-			<table id="managedinstalls-table" class="table table-striped">
-		      <thead>
-		        <tr>
-		          <th data-i18n="name"></th>
-				  <th data-i18n="version"></th>
-				  <th data-i18n="size"></th>
-				  <th data-i18n="status"></th>
-				  <th data-i18n="type"></th>
-		        </tr>
-		      </thead>
-		      <tbody>
-		      </tbody>
-		    </table>
-
-    </div><!-- </div class="col-lg-12"> -->
-
-  </div><!-- </div class="row"> -->
-
-
-
-<script>
-$(document).on('appReady', function(e, lang) {
-
+	});
 
 	// Get managedinstalls data
 	$.getJSON(appUrl + '/module/managedinstalls/get_data/' + serialNumber, function(data){
@@ -155,6 +131,7 @@ $(document).on('appReady', function(e, lang) {
 				val.version,
 				val.size,
 				val.status,
+				val.munki_timestamp,
 				val.type
 			]);
 			statusList[val.status] ++;
@@ -170,7 +147,7 @@ $(document).on('appReady', function(e, lang) {
 					.append($('<button>')
 						.addClass('btn btn-xs')
 						.addClass('btn-' + format.type)
-						.text(prop + ' ' + statusList[prop])
+						.text((prop.charAt(0).toUpperCase() + prop.slice(1)).replace("_i", ' I').replace("_r", ' R') + ' ' + statusList[prop])
 						.data('prop', prop)
 						.click(function(){
 							var table = $('#managedinstalls-table').DataTable();
@@ -187,19 +164,30 @@ $(document).on('appReady', function(e, lang) {
 			serverSide: false,
 			order: [0,'asc'],
 			createdRow: function( nRow, aData, iDataIndex ) {
-				// make filesize human readable
+				// Make filesize human readable
 				var size=$('td:eq(2)', nRow).html();
 				$('td:eq(2)', nRow).html(fileSize(size * 1024, 0));
-				// add status labels
-					var status = $('td:eq(3)', nRow).text();
-					if(mr.statusFormat[status]){
-						$('td:eq(3)', nRow).empty()
-							.append($('<span>')
-								.addClass('label')
-								.addClass('label-' + mr.statusFormat[status].type)
-								.text(status));
-					}
 
+				// Add status labels
+				var status = $('td:eq(3)', nRow).text();
+				if(mr.statusFormat[status]){
+					$('td:eq(3)', nRow).empty()
+						.append($('<span>')
+							.addClass('label')
+							.addClass('label-' + mr.statusFormat[status].type)
+							// .text(status)
+							.text((status.charAt(0).toUpperCase() + status.slice(1)).replace("_i", ' I').replace("_r", ' R')));
+				}
+				
+				// Format timestamp
+				var timestamp = $('td:eq(4)', nRow).text();
+				if (timestamp > 0){
+					var date = new Date(timestamp * 1000);
+					$('td:eq(4)', nRow).html('<span title="'+date+'">'+moment(date).fromNow()+'</span>');
+					console.log("here")
+				} else {
+					$('td:eq(4)', nRow).text("")
+				}
 			}
 		});
 	});
@@ -208,7 +196,7 @@ $(document).on('appReady', function(e, lang) {
 	mr.mwa2Link = "<?=conf('mwa2_link')?>";
 
 	// Get munkireport data TODO: move to client_detail.js
-    $.getJSON(appUrl + '/module/munkireport/get_data/' + serialNumber, function(data){
+		$.getJSON(appUrl + '/module/munkireport/get_data/' + serialNumber, function(data){
 		// TODO: check for errors
 		$.each(data, function(prop, val){
 			$('#munki-'+prop).html(val);
@@ -238,6 +226,7 @@ $(document).on('appReady', function(e, lang) {
 				.html(errors.join("\n"));
 			$('#munkireport-no-errors').addClass('hide');
 		}
+
 		if (data.warnings > 0) {
 			var warnings = JSON.parse(data.warning_json);
 			$('#munkireport-warnings')
@@ -245,9 +234,6 @@ $(document).on('appReady', function(e, lang) {
 				.html(warnings.join("\n"));
 			$('#munkireport-no-errors').addClass('hide');
 		}
-
-
-    });
-
+	});
 });
 </script>

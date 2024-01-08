@@ -7,8 +7,7 @@
  * @author
  **/
 class Munkireport_controller extends Module_controller
-{
-    
+{ 
     /*** Protect methods with auth! ****/
     public function __construct()
     {
@@ -26,7 +25,7 @@ class Munkireport_controller extends Module_controller
     {
         echo "You've loaded the munkireport module!";
     }
-    
+
     /**
      * Retrieve data in json format
      *
@@ -57,7 +56,7 @@ class Munkireport_controller extends Module_controller
 
         $obj->view('json', array('msg' => $out));
     }
-    
+
     /**
      * Get manifests statistics
      *
@@ -79,7 +78,7 @@ class Munkireport_controller extends Module_controller
             $obj->view('json', array('msg' => $out));
         }
     }
-    
+
     /**
     * Get munki versions
      *
@@ -102,8 +101,7 @@ class Munkireport_controller extends Module_controller
             $obj->view('json', ['msg' => $out]);
         }
     }
-    
-    
+
     /**
      * Get statistics
      *   *
@@ -120,7 +118,7 @@ class Munkireport_controller extends Module_controller
         $obj = new View();
         $obj->view('json', array('msg' => $out));
     }
-    
+
     public function get_errors($max = 5)
     {
         $out = array();
@@ -139,7 +137,7 @@ class Munkireport_controller extends Module_controller
         $obj = new View();
         $obj->view('json', ['msg' => $out]);
     }
-    
+
     public function get_warnings($max = 5)
     {
         $out = array();
@@ -160,5 +158,4 @@ class Munkireport_controller extends Module_controller
           $obj->view('json', ['msg' => $out]);
     }
 
-
-} // END class default_module
+} // END class munkireport_module

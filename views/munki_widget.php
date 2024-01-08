@@ -1,31 +1,22 @@
 <div class="col-lg-4 col-md-6">
-
 	<div class="panel panel-default" id="munki-widget">
-
-	  <div class="panel-heading">
-
-	    <h3 class="panel-title"><i class="fa fa-smile-o"></i>
-	        <span data-i18n="munkireport.munki"></span>
-	        <list-link data-url="/show/listing/munkireport/munki"></list-link>
-	    </h3>
-
-	  </div>
-
-		<div class="panel-body text-center">
-
-		  <a href="#munkireport.errors" tag="error" class="btn btn-danger disabled">
-			  <span class="bigger-150"> 0 </span><br>
-			  <span class="count"></span>
-		  </a>
-		  <a href="#munkireport.warnings" tag="warning" class="btn btn-warning disabled">
-			  <span class="bigger-150"> 0 </span><br>
-			  <span class="count"></span>
-		  </a>
-
+		<div class="panel-heading">
+			<h3 class="panel-title"><i class="fa fa-smile-o"></i>
+				<span data-i18n="munkireport.munki"></span>
+				<list-link data-url="/show/listing/munkireport/munki"></list-link>
+			</h3>
 		</div>
-
+		<div class="panel-body text-center">
+			<a href="#munkireport.errors" tag="error" class="btn btn-danger disabled">
+				<span class="bigger-150"> 0 </span><br>
+				<span class="count"></span>
+			</a>
+			<a href="#munkireport.warnings" tag="warning" class="btn btn-warning disabled">
+				<span class="bigger-150"> 0 </span><br>
+				<span class="count"></span>
+			</a>
+		</div>
 	</div>
-
 </div><!-- /col -->
 
 <script>
@@ -64,11 +55,8 @@ $(document).on('appReady', function(){
 				$('#munki-widget a[tag="'+tag+'"] span.count')
 					.text(i18n.t(tag, { count: +data[tag] }));
 			});
-
 		});
-
 	});
-
 });
 
 </script>
