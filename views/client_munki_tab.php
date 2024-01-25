@@ -147,7 +147,7 @@ $(document).on('appReady', function(){
 					.append($('<button>')
 						.addClass('btn btn-xs')
 						.addClass('btn-' + format.type)
-						.text((prop.charAt(0).toUpperCase() + prop.slice(1)).replace("_i", ' I').replace("_r", ' R') + ' ' + statusList[prop])
+						.text((prop.charAt(0).toUpperCase() + prop.slice(1)).replace("_i", ' I').replace("_s", ' S').replace("_r", ' R') + ' ' + statusList[prop])
 						.data('prop', prop)
 						.click(function(){
 							var table = $('#managedinstalls-table').DataTable();
@@ -176,7 +176,7 @@ $(document).on('appReady', function(){
 							.addClass('label')
 							.addClass('label-' + mr.statusFormat[status].type)
 							// .text(status)
-							.text((status.charAt(0).toUpperCase() + status.slice(1)).replace("_i", ' I').replace("_r", ' R')));
+							.text((status.charAt(0).toUpperCase() + status.slice(1)).replace("_i", ' I').replace("_s", ' S').replace("_r", ' R')));
 				}
 				
 				// Format timestamp
