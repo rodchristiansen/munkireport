@@ -147,7 +147,7 @@ $(document).on('appReady', function(){
 					.append($('<button>')
 						.addClass('btn btn-xs')
 						.addClass('btn-' + format.type)
-						.text((prop.charAt(0).toUpperCase() + prop.slice(1)).replace("_i", ' I').replace("_s", ' S').replace("_r", ' R') + ' ' + statusList[prop])
+						.text((prop.charAt(0).toUpperCase() + prop.slice(1)).replace("_i", ' I').replace("_s", ' S').replace("_r", ' R').replace("_f", ' F') + ' ' + statusList[prop])
 						.data('prop', prop)
 						.click(function(){
 							var table = $('#managedinstalls-table').DataTable();
@@ -176,15 +176,14 @@ $(document).on('appReady', function(){
 							.addClass('label')
 							.addClass('label-' + mr.statusFormat[status].type)
 							// .text(status)
-							.text((status.charAt(0).toUpperCase() + status.slice(1)).replace("_i", ' I').replace("_s", ' S').replace("_r", ' R')));
+							.text((status.charAt(0).toUpperCase() + status.slice(1)).replace("_i", ' I').replace("_s", ' S').replace("_r", ' R').replace("_f", ' F')));
 				}
 				
 				// Format timestamp
 				var timestamp = $('td:eq(4)', nRow).text();
 				if (timestamp > 0){
 					var date = new Date(timestamp * 1000);
-					$('td:eq(4)', nRow).html('<span title="'+date+'">'+moment(date).fromNow()+'</span>');
-					console.log("here")
+					$('td:eq(4)', nRow).html('<span title="'+date+'">'+moment((timestamp * 1000)).fromNow()+'</span>');
 				} else {
 					$('td:eq(4)', nRow).text("")
 				}
