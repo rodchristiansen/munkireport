@@ -18,10 +18,6 @@
 				<td><div id="munkiinfo-SoftwareRepoURL"></div></td>
 			</tr>
 			<tr>
-				<th data-i18n="munkiinfo.applecatalog"></th>
-				<td><div id="munkiinfo-AppleCatalogURL"></div></td>
-			</tr>
-			<tr>
 				<th data-i18n="munkiinfo.manifest"></th>
 				<td id="munki-manifestname"></td>
 			</tr>
@@ -92,7 +88,6 @@ $(document).on('appReady', function(){
 	$.getJSON(appUrl + '/module/munkiinfo/get_data/' + serialNumber, function(data){
 		// These are single preferences
 		$('#munkiinfo-SoftwareRepoURL').text(data['SoftwareRepoURL']);
-		$('#munkiinfo-AppleCatalogURL').text(data['AppleCatalogURL']);
 		$('#munkiinfo-LocalOnlyManifest').text(data['LocalOnlyManifest']);
 
 		// Create table of all preferences
@@ -195,7 +190,7 @@ $(document).on('appReady', function(){
 	mr.mwa2Link = "<?=conf('mwa2_link')?>";
 
 	// Get munkireport data TODO: move to client_detail.js
-		$.getJSON(appUrl + '/module/munkireport/get_data/' + serialNumber, function(data){
+	$.getJSON(appUrl + '/module/munkireport/get_data/' + serialNumber, function(data){
 		// TODO: check for errors
 		$.each(data, function(prop, val){
 			$('#munki-'+prop).html(val);
@@ -210,11 +205,21 @@ $(document).on('appReady', function(){
 		}
 
 		// Set times
-		var starttime = moment(data.starttime, "YYYY-MM-DD HH:mm:ss Z"),
+		if (data.starttime && !isNaN(data.starttime)){
+			// Munki 7+ has this as a timestamp
+			var starttime = new Date(data.starttime * 1000),
+			endtime = new Date(data.endtime * 1000),
+			duration = moment(endtime).diff(starttime, 'seconds'),
+			startdate = starttime;
+		} else {
+			// Older versions of Munki save it as a string
+			var startdate = new Date(data.starttime);
+			var starttime = moment(data.starttime, "YYYY-MM-DD HH:mm:ss Z"),
 			endtime = moment(data.endtime, "YYYY-MM-DD HH:mm:ss Z"),
 			duration = endtime.diff(starttime, 'seconds');
+		}
 
-		$('#munki-starttime').html('<span title="'+data.starttime+'"></span>'+starttime.fromNow());
+		$('#munki-starttime').html('<span title="'+startdate+'">'+moment(starttime).fromNow()+'</span>');
 		$('#munki-duration').html(moment.duration(duration, "seconds").humanize());
 
 		// Handle Errors and Warnings

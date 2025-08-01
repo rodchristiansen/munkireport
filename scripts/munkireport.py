@@ -19,7 +19,7 @@ default_install_dir = '/Library/Managed Installs'
 managed_install_dir = CoreFoundation.CFPreferencesCopyAppValue(
     "ManagedInstallDir", "ManagedInstalls")
 
-# set the paths based on munki's configuration.
+# Set the paths based on munki's configuration.
 if managed_install_dir:
     MANAGED_INSTALL_REPORT = os.path.join(
         managed_install_dir, 'ManagedInstallReport.plist')
