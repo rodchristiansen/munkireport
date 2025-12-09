@@ -23,9 +23,10 @@ $(document).on('appUpdate', function(){
 			scrollBox
 				.append($('<a>')
 					.addClass('list-group-item')
+					.addClass('list-group-item-action')
 					.attr('href', appUrl + '/show/listing/munkireport/munki#munkireport.warnings')
 					.append($('<span>')
-						.addClass('badge pull-right')
+						.addClass('badge badge-secondary pull-right')
 						.text(obj.count))
 					.append(warning_json)
 					)

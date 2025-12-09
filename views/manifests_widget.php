@@ -24,8 +24,8 @@ $(document).on('appUpdate', function(){
 			});
 
             $.each(data, function(i,d){
-                var badge = '<span class="badge pull-right">'+d.count+'</span>';
-                list.append('<a href="'+appUrl+'/show/listing/munkireport/munki/#'+d.manifestname+'" class="list-group-item">'+d.manifestname+badge+'</a>')
+                var badge = '<span class="badge badge-secondary pull-right">'+d.count+'</span>';
+                list.append('<a href="'+appUrl+'/show/listing/munkireport/munki/#'+d.manifestname+'" class="list-group-item list-group-item-action">'+d.manifestname+badge+'</a>')
             });
         }
         else{

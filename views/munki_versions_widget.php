@@ -22,9 +22,9 @@ $(document).on('appUpdate', function(){
 				return mr.naturalSort(b.version, a.version);
 			});
             $.each(data, function(i,d){
-                var badge = '<span class="badge pull-right">'+d.count+'</span>';
+                var badge = '<span class="badge badge-secondary pull-right">'+d.count+'</span>';
 				d.version = d.version || i18n.t('unknown');
-                list.append('<a href="'+appUrl+'/show/listing/munkireport/munki/#'+d.version+'" class="list-group-item">'+d.version+badge+'</a>')
+                list.append('<a href="'+appUrl+'/show/listing/munkireport/munki/#'+d.version+'" class="list-group-item list-group-item-action">'+d.version+badge+'</a>')
             });
         }
         else{
