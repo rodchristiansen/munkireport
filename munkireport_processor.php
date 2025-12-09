@@ -1,21 +1,38 @@
 <?php
+/**
+ * Munkireport Processor
+ * 
+ * Processes Munki report data from clients.
+ * Supports both plist and YAML data formats for future compatibility.
+ * 
+ * @package munkireport/munkireport
+ */
 
 use CFPropertyList\CFPropertyList;
 use munkireport\processors\Processor;
 
+// Include the DataParser for YAML support
+require_once __DIR__ . '/lib/DataParser.php';
+use munkireport\munkireport\lib\DataParser;
+
 class Munkireport_processor extends Processor
 {
-    public function run($plist)
+    public function run($data)
     {
-        if (! $plist) {
+        if (! $data) {
             throw new Exception(
-                "Error Processing Request: No property list found", 1
+                "Error Processing Request: No data found", 1
             );
         }
 
-        $parser = new CFPropertyList();
-        $parser->parse($plist, CFPropertyList::FORMAT_XML);
-        $mylist = $parser->toArray();
+        // Use DataParser to handle both plist and YAML formats
+        $mylist = DataParser::parse($data);
+        if (! $mylist) {
+            throw new Exception(
+                "Error Processing Request: Could not parse data", 1
+            );
+        }
+        
         $modelData = [
             'serial_number' => $this->serial_number,
             'timestamp' => date('Y-m-d H:i:s')
