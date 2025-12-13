@@ -17,6 +17,28 @@ use munkireport\munkireport\lib\DataParser;
 
 class Munkireport_processor extends Processor
 {
+    /**
+     * Error message patterns to suppress.
+     * These are typically network-related errors that are not actionable by admins.
+     * Add patterns here to filter out specific error messages.
+     */
+    private $suppressedErrorPatterns = [
+        '/\(-1009,.*Internet connection appears to be offline/i',
+        '/\(-1001,.*request timed out/i',
+        '/\(-1005,.*network connection was lost/i',
+        '/\(-1004,.*Could not connect to the server/i',
+        '/\(-1003,.*A server with the specified hostname could not be found/i',
+    ];
+
+    /**
+     * Warning message patterns to suppress.
+     * Add patterns here to filter out specific warning messages.
+     */
+    private $suppressedWarningPatterns = [
+        // Add warning patterns here if needed
+        // '/pattern/i',
+    ];
+
     public function run($data)
     {
         if (! $data) {
@@ -53,16 +75,22 @@ class Munkireport_processor extends Processor
             }
         }
 
-        // Parse errors and warnings
+        // Parse errors and warnings with filtering
         $errorsWarnings = ['Errors' => 'error_json', 'Warnings' => 'warning_json'];
         foreach ($errorsWarnings as $key => $json) {
             $dbkey = strtolower($key);
             if (isset($mylist[$key]) && is_array($mylist[$key])) {
-                // Store count
-                $modelData[$dbkey] = count($mylist[$key]);
+                // Filter out suppressed messages
+                $filteredMessages = $this->_filterMessages(
+                    $mylist[$key], 
+                    $key === 'Errors' ? $this->suppressedErrorPatterns : $this->suppressedWarningPatterns
+                );
+                
+                // Store count of filtered messages
+                $modelData[$dbkey] = count($filteredMessages);
 
-                // Store json
-                $modelData[$json] = json_encode($mylist[$key]);
+                // Store json of filtered messages
+                $modelData[$json] = json_encode($filteredMessages);
             } else {
                 // reset
                 $modelData[$dbkey] = 0;
@@ -77,6 +105,29 @@ class Munkireport_processor extends Processor
         $this->_storeEvents($modelData);
 
         return $this;
+    }
+
+    /**
+     * Filter out messages matching suppression patterns.
+     * 
+     * @param array $messages Array of error/warning messages
+     * @param array $patterns Array of regex patterns to suppress
+     * @return array Filtered messages
+     */
+    private function _filterMessages($messages, $patterns)
+    {
+        if (empty($patterns)) {
+            return $messages;
+        }
+
+        return array_values(array_filter($messages, function($message) use ($patterns) {
+            foreach ($patterns as $pattern) {
+                if (preg_match($pattern, $message)) {
+                    return false; // Suppress this message
+                }
+            }
+            return true; // Keep this message
+        }));
     }
         
     private function _storeEvents($modelData)
