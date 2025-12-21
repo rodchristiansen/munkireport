@@ -1,4 +1,4 @@
-#!/usr/local/munkireport/munkireport-python2
+#!/usr/local/munkireport/munkireport-python3
 """
 Filter the results of munki's MANAGED_INSTALL_REPORT.plist
 to these items: 'EndTime', 'StartTime', 'ManifestName', 'ManagedInstallVersion'
@@ -30,7 +30,7 @@ else:
 # Don't skip manual check
 if len(sys.argv) > 1:
     if sys.argv[1] == 'debug':
-        print '**** DEBUGGING ENABLED ****'
+        print('**** DEBUGGING ENABLED ****')
         DEBUG = True
         import pprint
         PP = pprint.PrettyPrinter(indent=4)
@@ -39,8 +39,9 @@ if len(sys.argv) > 1:
 def dict_from_plist(path):
     """Returns a dict based on plist found in path"""
     try:
-        return plistlib.readPlist(path)
-    except Exception, message:
+        with open(path, 'rb') as f:
+            return plistlib.load(f)
+    except Exception as message:
         raise Exception("Error creating plist from output: %s" % message)
 
 def unique_list(seq):
