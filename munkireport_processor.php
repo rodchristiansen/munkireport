@@ -1,19 +1,7 @@
 <?php
-/**
- * Munkireport Processor
- * 
- * Processes Munki report data from clients.
- * Supports both plist and YAML data formats for future compatibility.
- * 
- * @package munkireport/munkireport
- */
 
 use CFPropertyList\CFPropertyList;
 use munkireport\processors\Processor;
-
-// Include the DataParser for YAML support
-require_once __DIR__ . '/lib/DataParser.php';
-use munkireport\munkireport\lib\DataParser;
 
 class Munkireport_processor extends Processor
 {
@@ -25,8 +13,18 @@ class Munkireport_processor extends Processor
             );
         }
 
-        // Use DataParser to handle both plist and YAML formats
-        $mylist = DataParser::parse($data);
+        // Parse plist or YAML data
+        $trimmedData = ltrim($data);
+        if (strpos($trimmedData, '<?xml') === 0 ||
+            strpos($trimmedData, '<!DOCTYPE plist') !== false ||
+            strpos($trimmedData, '<plist') !== false) {
+            $parser = new CFPropertyList();
+            $parser->parse($data, CFPropertyList::FORMAT_XML);
+            $mylist = $parser->toArray();
+        } else {
+            $mylist = \Symfony\Component\Yaml\Yaml::parse($data);
+        }
+
         if (! $mylist) {
             throw new Exception(
                 "Error Processing Request: Could not parse data", 1

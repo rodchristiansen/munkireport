@@ -1,11 +1,9 @@
 <div class="col-lg-4 col-md-6">
-	<div class="panel panel-default" id="munki-versions-widget">
-		<div class="panel-heading" data-container="body" data-i18n="[title]munkireport.munki_versions.tooltip">
-			<h3 class="panel-title">
+	<div class="card" id="munki-versions-widget">
+		<div class="card-header" data-container="body" data-i18n="[title]munkireport.munki_versions.tooltip">
 	    	<i class="fa fa-sitemap"></i>
             <span data-i18n="munkireport.munki_versions.title"></span>
-            <list-link data-url="/show/listing/munkireport/munki"></list-link>
-			</h3>
+            <a href="/show/listing/munkireport/munki" class="pull-right"><i class="fa fa-list"></i></a>
 		</div>
 		<div class="list-group scroll-box"></div>
 	</div><!-- /panel -->

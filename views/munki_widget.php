@@ -1,13 +1,11 @@
 <div class="col-lg-4 col-md-6">
-	<div class="panel panel-default" id="munki-widget">
-	  <div class="panel-heading">
-		<h3 class="panel-title">
+	<div class="card" id="munki-widget">
+	  <div class="card-header">
 	    <i class="fa fa-smile-o"></i>
           <span data-i18n="munkireport.munki"></span>
-          <list-link data-url="/show/listing/munkireport/munki"></list-link>
-		</h3>
+          <a href="/show/listing/munkireport/munki" class="pull-right"><i class="fa fa-list"></i></a>
 	  </div>
-		<div class="panel-body text-center">
+		<div class="card-body text-center">
 		  <a href="#munkireport.errors" tag="error" class="btn btn-danger disabled">
 			  <span class="bigger-150"> 0 </span><br>
 			  <span class="count"></span>
